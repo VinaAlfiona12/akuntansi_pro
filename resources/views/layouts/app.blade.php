@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@yield('title', 'Reservasi Hotel')</title>
 
-    <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <!-- AOS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
+    
     <style>
-    /* Tema: Reservasi Hotel - Elegan, Mewah, dan Hangat */
+    /* Tema: Reservasi Hotel - Elegan, Mewah, dan Hangat (CSS terpilih) */
     body {
         background: linear-gradient(135deg, #2C3E50, #3A506B, #2C3E50); /* gradasi navy gelap */
         min-height: 100vh;
         font-family: 'Poppins', sans-serif;
         color: #fdfdfd;
+        display: flex; /* Untuk menempatkan footer di bawah */
+        flex-direction: column;
     }
 
     nav.navbar {
@@ -55,6 +55,7 @@
 
     main.main-content {
         padding-top: 5rem;
+        flex-grow: 1; /* Konten utama mengisi ruang yang tersisa */
     }
 
     main.main-content > .container {
@@ -127,11 +128,11 @@
     @stack('styles')
 </head>
 <body>
-    <!-- NAVBAR (lengkap + aman) -->
+
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/dashboard') }}" data-aos="fade-right" data-aos-duration="700">
-                <i class="bi bi-building-fill"></i> Reservasi Hotel
+                <i class="bi bi-building-fill"></i> **Reservasi Hotel**
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
                     aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,28 +141,10 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {{-- Dashboard --}}
-                    <li class="nav-item"></li>
+                    {{-- Nav Item Lainnya di sini (Dashboard, dll) --}}
 
-                    {{-- TRANSAKSI --}}
-                    @if(Route::has('penjualan.index') || Route::has('pembelian.index') || Route::has('pembayaran.index') || Route::has('journals.index') || Route::has('ledger.index') || Route::has('cashbank.index'))
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="menuTransaksi" role="button" data-bs-toggle="dropdown">Transaksi</a>
-                        <ul class="dropdown-menu" aria-labelledby="menuTransaksi">
-                            @if(Route::has('penjualan.index'))<li><a class="dropdown-item" href="{{ route('penjualan.index') }}">Penjualan</a></li>@endif
-                            @if(Route::has('pembelian.index'))<li><a class="dropdown-item" href="{{ route('pembelian.index') }}">Pembelian</a></li>@endif
-                            @if(Route::has('pembayaran.index'))<li><a class="dropdown-item" href="{{ route('pembayaran.index') }}">Pembayaran & Penerimaan</a></li>@endif
-                            @if(Route::has('journals.index'))<li><a class="dropdown-item" href="{{ route('journals.index') }}">Jurnal Umum</a></li>@endif
-                            @if(Route::has('journals.penyesuaian'))<li><a class="dropdown-item" href="{{ route('journals.penyesuaian') }}">Jurnal Penyesuaian</a></li>@endif
-                            @if(Route::has('journals.penutup'))<li><a class="dropdown-item" href="{{ route('journals.penutup') }}">Jurnal Penutup</a></li>@endif
-                            @if(Route::has('ledger.index'))<li><a class="dropdown-item" href="{{ route('ledger.index') }}">Buku Besar</a></li>@elseif(Route::has('buku-besar.index'))<li><a class="dropdown-item" href="{{ route('buku-besar.index') }}">Buku Besar</a></li>@endif
-                            @if(Route::has('cashbank.index'))<li><a class="dropdown-item" href="{{ route('cashbank.index') }}">Kas & Bank</a></li>@endif
-                        </ul>
-                    </li>
-                    @endif
-
-                    {{-- DATA MASTER --}}
-                    @if(Route::has('tamu.index') ||Route::has('kamar.index')|| Route::has('pegawai.index') || Route::has('pegawai.index'))
+                    {{-- DATA MASTER (Hotel) --}}
+                    @if(Route::has('tamu.index') ||Route::has('kamar.index')|| Route::has('pegawai.index'))
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="menuMaster" role="button" data-bs-toggle="dropdown">Data Master</a>
                         <ul class="dropdown-menu" aria-labelledby="menuMaster">
@@ -169,45 +152,26 @@
                             @if(Route::has('kamar.index'))<li><a class="dropdown-item" href="{{ route('kamar.index') }}">Daftar Kamar</a></li>@endif
                             @if(Route::has('promo.index'))<li><a class="dropdown-item" href="{{ route('promo.index') }}">Daftar Promo</a></li>@endif
                             @if(Route::has('layanan.index'))<li><a class="dropdown-item" href="{{ route('layanan.index') }}">Daftar Layanan</a></li>@endif
-                            @if(Route::has('pegawai.index'))<li><a class="dropdown-item" href="{{ route('pegawai.index') }}">Daftar Pegawai</a></li>@elseif(Route::has('pegawai.index'))<li><a class="dropdown-item" href="{{ route('pegawai.index') }}">Daftar Pegawai</a></li>@endif
+                            @if(Route::has('pegawai.index'))<li><a class="dropdown-item" href="{{ route('pegawai.index') }}">Daftar Pegawai</a></li>@endif
                         </ul>
                     </li>
                     @endif
 
-
-                    {{-- DATA SISTEM--}} 
-                    @if(Route::has('akses.index'))  
+                    {{-- DATA SISTEM (Reservasi, Checkin/out) --}} 
+                    @if(Route::has('akses.index') || Route::has('reservasi.index'))  
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="menuDataSistem" role="button" data-bs-toggle="dropdown">Data Sistem</a>
                         <ul class="dropdown-menu" aria-labelledby="menuDataSistem">
-                            @if(Route::has('akses.index'))<li><a class="dropdown-item" href="{{ route('akses.index') }}">Akses</a></li>@endif
                             @if(Route::has('reservasi.index'))<li><a class="dropdown-item" href="{{ route('reservasi.index') }}">Reservasi</a></li>@endif
-                            @if(Route::has('servis.index'))<li><a class="dropdown-item" href="{{ route('servis.index') }}">Servis</a></li>@endif
                             @if(Route::has('checkin.index'))<li><a class="dropdown-item" href="{{ route('checkin.index') }}">Checkin</a></li>@endif
                             @if(Route::has('checkout.index'))<li><a class="dropdown-item" href="{{ route('checkout.index') }}">Checkout</a></li>@endif
-                           
-                           
-                           
+                            @if(Route::has('servis.index'))<li><a class="dropdown-item" href="{{ route('servis.index') }}">Servis</a></li>@endif
+                            <hr class="dropdown-divider">
+                            @if(Route::has('akses.index'))<li><a class="dropdown-item" href="{{ route('akses.index') }}">Akses</a></li>@endif
                         </ul>
                     </li>
                     @endif
-
-                    {{-- LAPORAN --}}
-                    @if(Route::has('laporan.jurnal-umum') || Route::has('laporan.neraca-saldo') || Route::has('laporan.laba-rugi') || Route::has('laporan.neraca') || Route::has('laporan.perubahan-modal') || Route::has('laporan.arus-kas') || Route::has('laporan.keuangan'))
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="menuLaporan" role="button" data-bs-toggle="dropdown">Laporan</a>
-                        <ul class="dropdown-menu" aria-labelledby="menuLaporan">
-                            @if(Route::has('laporan.jurnal-umum'))<li><a class="dropdown-item" href="{{ route('laporan.jurnal-umum') }}">Jurnal Umum</a></li>@endif
-                            @if(Route::has('laporan.neraca-saldo'))<li><a class="dropdown-item" href="{{ route('laporan.neraca-saldo') }}">Neraca Saldo</a></li>@endif
-                            @if(Route::has('laporan.laba-rugi'))<li><a class="dropdown-item" href="{{ route('laporan.laba-rugi') }}">Laba Rugi</a></li>@endif
-                            @if(Route::has('laporan.neraca'))<li><a class="dropdown-item" href="{{ route('laporan.neraca') }}">Neraca</a></li>@endif
-                            @if(Route::has('laporan.perubahan-modal'))<li><a class="dropdown-item" href="{{ route('laporan.perubahan-modal') }}">Perubahan Modal</a></li>@endif
-                            @if(Route::has('laporan.arus-kas'))<li><a class="dropdown-item" href="{{ route('laporan.arus-kas') }}">Arus Kas</a></li>@endif
-                            @if(Route::has('laporan.keuangan'))<li><a class="dropdown-item" href="{{ route('laporan.keuangan') }}">Laporan Keuangan</a></li>@endif
-                        </ul>
-                    </li>
-                    @endif
-
+                    
                     {{-- PENGATURAN --}}
                     @if(Route::has('transaksi.reset') || Route::has('user.index'))
                     <li class="nav-item dropdown">
@@ -215,12 +179,12 @@
                         <ul class="dropdown-menu" aria-labelledby="menuPengaturan">
                             @if(Route::has('user.index'))<li><a class="dropdown-item" href="{{ route('user.index') }}">Manajemen User</a></li>@endif
                             @if(Route::has('transaksi.reset'))
-                                <li>
-                                    <form action="{{ route('transaksi.reset') }}" method="POST" onsubmit="return confirm('Yakin ingin mengosongkan semua data transaksi? Semua data akan dihapus secara permanen!')">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">Kosongkan Transaksi</button>
-                                    </form>
-                                </li>
+                            <li>
+                                <form action="{{ route('transaksi.reset') }}" method="POST" onsubmit="return confirm('Yakin ingin mengosongkan semua data transaksi? Semua data akan dihapus secara permanen!')">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">Kosongkan Transaksi</button>
+                                </form>
+                            </li>
                             @endif
                         </ul>
                     </li>
@@ -253,7 +217,35 @@
         </div>
     </nav>
 
-    <!-- HERO -->
+    <div class="container mt-5 pt-4"> 
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
+        @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Terjadi kesalahan:</strong>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+    </div>
+
+
     @if(Request::is('/') || Request::is('dashboard'))
     <section class="container">
         <div class="hero-section text-center" data-aos="fade-up" data-aos-duration="900">
@@ -269,17 +261,14 @@
     </section>
     @endif
 
-    <!-- MAIN CONTENT -->
     <main class="main-content" data-aos="fade-up" data-aos-duration="700">
         @yield('content')
     </main>
 
-    <!-- FOOTER -->
     <footer class="text-center py-3 mt-4" data-aos="fade-up" data-aos-duration="700">
         <small>&copy; {{ date('Y') }} Reservasi Hotel — Semua Hak Dilindungi.</small>
     </footer>
 
-    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
